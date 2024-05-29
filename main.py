@@ -1,5 +1,18 @@
 import paho.mqtt.client as mqtt
 import config as env
+import json as JSON
+
+
+def on_switch_action(client, switch_id, payload):
+    # print(f'Switch {switch_id} action > {payload.get("action")}')
+    #
+    #
+    # Do something with the switch action
+    #
+    #
+    #
+    client.publish(f'switch/{switch_id}/response', JSON.dumps(
+        {'status': payload.get('action')}))
 
 
 def on_connect(client, userdata, flags, rc):
@@ -11,7 +24,12 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+    # print(msg.topic+" "+str(msg.payload))
+    if env.switchActionPattern.match(msg.topic):
+        switchActionMatch = env.switchActionPattern.match(msg.topic)
+        switch_id = switchActionMatch.group(1)
+        payload = JSON.loads(msg.payload)
+        on_switch_action(client, switch_id, payload)
 
 
 client = mqtt.Client()

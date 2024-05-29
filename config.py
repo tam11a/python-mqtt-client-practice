@@ -1,6 +1,10 @@
+import re
 import os
 from dotenv import load_dotenv
 load_dotenv()
+
+# ENVIRONMENT VARIABLES
+# Path: .env
 
 mqtt_host = os.environ.get('MQTT_HOST')
 mqtt_port = os.environ.get('MQTT_PORT', 1883)
@@ -13,3 +17,8 @@ switch_ids = [
     os.environ.get('SWITCH_ID_5'),
     os.environ.get('SWITCH_ID_6')
 ]
+
+
+# Patterns
+
+switchActionPattern = re.compile(r'switch/(\d+)/action')
