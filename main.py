@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import config as env
 
 
-def on_connect(client):
+def on_connect(client, userdata, flags, rc):
     print(f'Connected to {env.mqtt_host}')
 
     for switch_id in env.switch_ids:
@@ -18,5 +18,5 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect(env.mqtt_host, env.mqtt_port, 60)
+client.connect(env.mqtt_host, int(env.mqtt_port), 60)
 client.loop_forever()
