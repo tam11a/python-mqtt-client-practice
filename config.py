@@ -17,6 +17,14 @@ switch_ids = [
     os.environ.get('SWITCH_ID_5'),
     os.environ.get('SWITCH_ID_6')
 ]
+gpio_pins = [
+    os.environ.get('GPIO_PIN_1'),
+    os.environ.get('GPIO_PIN_2'),
+    os.environ.get('GPIO_PIN_3'),
+    os.environ.get('GPIO_PIN_4'),
+    os.environ.get('GPIO_PIN_5'),
+    os.environ.get('GPIO_PIN_6')
+]
 
 
 # Patterns

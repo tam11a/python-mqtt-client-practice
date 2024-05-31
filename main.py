@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import config as env
 import json as JSON
+import gpio
 
 
 def on_switch_action(client, switch_id, payload):
@@ -8,6 +9,7 @@ def on_switch_action(client, switch_id, payload):
     #
     #
     # Do something with the switch action
+    gpio.gpio_action(switch_id, payload.get('action'))
     #
     #
     #
