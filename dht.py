@@ -17,7 +17,7 @@ def dht_read(client):
         raise Exception('SENSOR_ID is not set')
     while True:
         try:
-            print(dhtDevice)
+            print(dhtDevice, dhtDevice.temperature, dhtDevice.humidity)
             temperature_c = dhtDevice.temperature
             temperature_f = temperature_c * (9 / 5) + 32
             humidity = dhtDevice.humidity
