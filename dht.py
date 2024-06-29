@@ -9,15 +9,12 @@ dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
 
 
 def dht_read(client):
-    print('Reading DHT sensor')
-    print(f'Sensor ID: {env.sensor_id}')
-    print(f'Sensor Pin: {env.sensor_pin}')
-    print(client)
     if env.sensor_id is None:
         raise Exception('SENSOR_ID is not set')
     while True:
         try:
             time.sleep(5)  # 5 seconds sleep
+            dhtDevice.measure()
             temperature_c = dhtDevice.temperature
             temperature_f = temperature_c * (9 / 5) + 32
             humidity = dhtDevice.humidity
