@@ -25,6 +25,7 @@ def dht_read(client):
 
         except RuntimeError as error:
             # Errors happen fairly often, DHT's are hard to read, just keep going
+            print(error)
             print(error.args[0])
             return None
         except Exception as error:
