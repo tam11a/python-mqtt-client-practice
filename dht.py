@@ -14,10 +14,9 @@ def dht_read(client):
     while True:
         try:
             time.sleep(5)  # 5 seconds sleep
-            dhtDevice.measure()
+            humidity = dhtDevice.humidity
             temperature_c = dhtDevice.temperature
             temperature_f = temperature_c * (9 / 5) + 32
-            humidity = dhtDevice.humidity
 
             print({'temperature_c': temperature_c,
                    'temperature_f': temperature_f, 'humidity': humidity})
