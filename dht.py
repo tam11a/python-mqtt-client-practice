@@ -5,7 +5,7 @@ import json as JSON
 import time
 
 # Initial the dht device, with data pin connected to:
-dhtDevice = adafruit_dht.DHT22(board.D4)
+dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
 
 
 def dht_read(client):
@@ -17,7 +17,7 @@ def dht_read(client):
         raise Exception('SENSOR_ID is not set')
     while True:
         try:
-            print(dhtDevice, dhtDevice.temperature, dhtDevice.humidity)
+            print(JSON.dumps(dhtDevice))
             temperature_c = dhtDevice.temperature
             temperature_f = temperature_c * (9 / 5) + 32
             humidity = dhtDevice.humidity
