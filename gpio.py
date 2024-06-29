@@ -3,6 +3,7 @@ import config as env
 
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
+
 for pin in env.gpio_pins:
     if pin is not None:
         gpio.setup(int(pin), gpio.OUT)

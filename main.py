@@ -2,6 +2,7 @@ import paho.mqtt.client as mqtt
 import config as env
 import json as JSON
 import gpio
+import dht as DHT
 
 
 def on_switch_action(client, switch_id, payload):
@@ -39,4 +40,10 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 client.connect(env.mqtt_host, int(env.mqtt_port), 60)
-client.loop_forever()
+
+client.loop_start()
+DHT.dht_read(client)
+client.loop_stop()
+
+
+# client.loop_forever()
