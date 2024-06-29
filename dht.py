@@ -1,11 +1,11 @@
 import board
-import adafruit_dht
+import Adafruit_DHT
 import RPi.GPIO as gpio
 import config as env
 import json as JSON
 
 # Initialize the DHT device, with data pin connected to:
-dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
+dhtDevice = Adafruit_DHT.DHT22(board.D4, use_pulseio=False)
 
 
 def dht_read(client):
