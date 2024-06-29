@@ -17,7 +17,7 @@ def dht_read(client):
         raise Exception('SENSOR_ID is not set')
     while True:
         try:
-            time.sleep(5)  # 5 seconds sleep
+            time.sleep(10)  # 10 seconds sleep
             temperature_c = dhtDevice.temperature
             temperature_f = temperature_c * (9 / 5) + 32
             humidity = dhtDevice.humidity
@@ -26,12 +26,12 @@ def dht_read(client):
                    'temperature_f': temperature_f, 'humidity': humidity})
 
             client.publish(f'sensor/{env.sensor_id}/live', JSON.dumps(
-                {'ref': env.sensor_id, 'temp': temperature_c, 'hum': humidity}))
+                {'ref': int(env.sensor_id), 'temp': temperature_c, 'hum': humidity}))
 
         except RuntimeError as error:
             # Errors happen fairly often, DHT's are hard to read, just keep going
             print(error.args[0])
-            time.sleep(2)
+            time.sleep(5)
             continue
 
         except Exception as error:
