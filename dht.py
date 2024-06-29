@@ -1,11 +1,11 @@
-# import board
+import board
 import adafruit_dht
 import config as env
 import json as JSON
 import time
 
 # Initial the dht device, with data pin connected to:
-dhtDevice = adafruit_dht.DHT22(env.sensor_pin, use_pulseio=False)
+dhtDevice = adafruit_dht.DHT22(board.D4)
 
 
 def dht_read(client):
