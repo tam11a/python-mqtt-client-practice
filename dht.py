@@ -9,6 +9,10 @@ dhtDevice = adafruit_dht.DHT22(board.D4)
 
 
 def dht_read(client):
+    print('Reading DHT sensor')
+    print(f'Sensor ID: {env.sensor_id}')
+    print(f'Sensor Pin: {env.sensor_pin}')
+    print(client)
     if env.sensor_id is None:
         raise Exception('SENSOR_ID is not set')
     while True:
