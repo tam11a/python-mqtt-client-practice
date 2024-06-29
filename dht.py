@@ -27,6 +27,7 @@ def dht_read(client):
 
             client.publish(f'sensor/{env.sensor_id}/live', JSON.dumps(
                 {'ref': int(env.sensor_id), 'temp': temperature_c, 'hum': humidity}))
+            time.sleep(5)  # 10 seconds sleep
 
         except RuntimeError as error:
             # Errors happen fairly often, DHT's are hard to read, just keep going
