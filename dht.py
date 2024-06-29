@@ -1,6 +1,4 @@
-import board
 import Adafruit_DHT
-import RPi.GPIO as gpio
 import config as env
 import json as JSON
 import time
