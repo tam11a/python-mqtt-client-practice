@@ -1,7 +1,11 @@
-import Adafruit_DHT
+import board
+import adafruit_dht
 import config as env
 import json as JSON
 import time
+
+# Initial the dht device, with data pin connected to:
+dhtDevice = adafruit_dht.DHT22(board.D18)
 
 
 def dht_read(client):
@@ -9,11 +13,9 @@ def dht_read(client):
         raise Exception('SENSOR_ID is not set')
     while True:
         try:
-            sensor = Adafruit_DHT.DHT22
-            humidity, temperature = Adafruit_DHT.read_retry(
-                sensor, env.sensor_id)
-            temperature_c = temperature
+            temperature_c = dhtDevice.temperature
             temperature_f = temperature_c * (9 / 5) + 32
+            humidity = dhtDevice.humidity
 
             print({'temperature_c': temperature_c,
                    'temperature_f': temperature_f, 'humidity': humidity})
@@ -25,8 +27,10 @@ def dht_read(client):
 
         except RuntimeError as error:
             # Errors happen fairly often, DHT's are hard to read, just keep going
-            print(error)
             print(error.args[0])
-            return None
+            time.sleep(2.0)
+            continue
+
         except Exception as error:
+            dhtDevice.exit()
             raise error
