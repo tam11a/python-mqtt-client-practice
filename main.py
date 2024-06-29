@@ -42,8 +42,8 @@ client.on_message = on_message
 client.connect(env.mqtt_host, int(env.mqtt_port), 60)
 
 # client.loop_start()
-# DHT.dht_read(client)
+DHT.dht_read(client)
 # client.loop_stop()
 
 
-client.loop_forever()
+# client.loop_forever()

@@ -30,5 +30,4 @@ def dht_read(client):
             print(error.args[0])
             return None
         except Exception as error:
-            dhtDevice.exit()
             raise error

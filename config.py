@@ -8,7 +8,10 @@ load_dotenv()
 
 mqtt_host = os.environ.get('MQTT_HOST')
 mqtt_port = os.environ.get('MQTT_PORT', 1883)
+
 sensor_id = os.environ.get('SENSOR_ID')
+sensor_pin = os.environ.get('SENSOR_PIN')
+
 switch_ids = [
     os.environ.get('SWITCH_ID_1'),
     os.environ.get('SWITCH_ID_2'),
