@@ -38,4 +38,8 @@ conda activate iot-101
 conda env export > environment.yml 
 ```
 
+```bash
+sudo apt-get install libgpiod2
+```
+
 Happy Hacking!
