@@ -17,7 +17,7 @@ def dht_read(client):
         raise Exception('SENSOR_ID is not set')
     while True:
         try:
-            time.sleep(10)  # 10 seconds sleep
+            time.sleep(5)  # 10 seconds sleep
             temperature_c = dhtDevice.temperature
             temperature_f = temperature_c * (9 / 5) + 32
             humidity = dhtDevice.humidity
@@ -31,7 +31,7 @@ def dht_read(client):
         except RuntimeError as error:
             # Errors happen fairly often, DHT's are hard to read, just keep going
             print(error.args[0])
-            time.sleep(5)
+            time.sleep(2)
             continue
 
         except Exception as error:
