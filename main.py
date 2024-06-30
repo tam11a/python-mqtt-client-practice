@@ -15,8 +15,8 @@ def on_switch_action(client, switch_id, payload):
     #
     #
     #
-    client.publish(f'switch/{switch_id}/response', JSON.dumps(
-        {'status': payload.get('action')}))
+    # client.publish(f'switch/{switch_id}/response', JSON.dumps(
+    #     {'status': payload.get('action')}))
 
 
 def on_connect(client, userdata, flags, rc):
