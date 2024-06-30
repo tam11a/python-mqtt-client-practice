@@ -3,6 +3,7 @@ import config as env
 import json as JSON
 import gpio
 import dht as DHT
+import threading
 
 
 def on_switch_action(client, switch_id, payload):
@@ -42,8 +43,14 @@ client.on_message = on_message
 client.connect(env.mqtt_host, int(env.mqtt_port), 60)
 
 # client.loop_start()
-DHT.dht_read(client)
+# DHT.dht_read(client)
 # client.loop_stop()
-
-
 # client.loop_forever()
+
+if __name__ == "__main__":
+    # Threads Initialization
+    thread_dht = threading.Thread(DHT.dht_read, client)
+    thread_switch = threading.Thread(client.loop_forever)
+
+    thread_dht.start()
+    thread_switch.start()
