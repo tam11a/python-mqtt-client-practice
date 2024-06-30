@@ -2,6 +2,8 @@ import RPi.GPIO as gpio
 import config as env
 import json as JSON
 
+prev_input = {pin: 0 for pin in env.gpio_input_pins}
+
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
 
@@ -48,7 +50,15 @@ def gpio_listner(client):
         for pin in env.gpio_input_pins:
             if pin is not None:
                 try:
-                    print(gpio.input(int(pin)))
+                    input_state = gpio.input(int(pin))
+                    if input_state != prev_input[pin]:
+                        prev_input[pin] = input_state
+                        switch_id = env.switch_ids[env.gpio_input_pins.index(
+                            pin)]
+                        print(f'Switch {switch_id} pressed',
+                              f'pin: {pin}', input_state)
+                        client.publish(f'switch/{switch_id}/response', JSON.dumps(
+                            {'status': input_state}))
                     # gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
                     # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
                     #     client, x), bouncetime=200)
