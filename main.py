@@ -49,8 +49,8 @@ client.connect(env.mqtt_host, int(env.mqtt_port), 60)
 
 # Threads Initialization
 
-# thread_dht = threading.Thread(DHT.dht_read, kwargs={'client': client})
-thread_dht = threading.Thread(target=lambda: DHT.dht_read(client))
+thread_dht = threading.Thread(target=DHT.dht_read, kwargs={'client': client})
+# thread_dht = threading.Thread(target=lambda: DHT.dht_read(client))
 thread_switch = threading.Thread(target=client.loop_forever)
 
 thread_dht.start()
