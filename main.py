@@ -49,7 +49,7 @@ client.connect(env.mqtt_host, int(env.mqtt_port), 60)
 
 if __name__ == "__main__":
     # Threads Initialization
-    thread_dht = threading.Thread(DHT.dht_read, client)
+    thread_dht = threading.Thread(DHT.dht_read, client=client)
     thread_switch = threading.Thread(client.loop_forever)
 
     thread_dht.start()
