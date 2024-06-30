@@ -44,9 +44,9 @@ if __name__ == "__main__":
 
     # Threads Initialization
 
+    thread_switch = threading.Thread(target=client.loop_forever)
     thread_dht = threading.Thread(
         target=DHT.dht_read, kwargs={'client': client})
-    thread_switch = threading.Thread(target=client.loop_forever)
 
     thread_dht.start()
     thread_switch.start()
