@@ -32,4 +32,4 @@ gpio_pins = [
 
 # Patterns
 
-switchActionPattern = re.compile(r'switch/(\d+)/action')
+switchActionPattern = re.compile(r'switch/(\d+)/pending')

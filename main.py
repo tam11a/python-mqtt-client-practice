@@ -36,22 +36,17 @@ def on_message(client, userdata, msg):
         on_switch_action(client, switch_id, payload)
 
 
-# client.loop_start()
-# DHT.dht_read(client)
-# client.loop_stop()
-# client.loop_forever()
+if __name__ == "__main__":
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.connect(env.mqtt_host, int(env.mqtt_port), 60)
 
-# if __name__ == "__main__":
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
-client.connect(env.mqtt_host, int(env.mqtt_port), 60)
+    # Threads Initialization
 
-# Threads Initialization
+    thread_dht = threading.Thread(
+        target=DHT.dht_read, kwargs={'client': client})
+    thread_switch = threading.Thread(target=client.loop_forever)
 
-thread_dht = threading.Thread(target=DHT.dht_read, kwargs={'client': client})
-# thread_dht = threading.Thread(target=lambda: DHT.dht_read(client))
-thread_switch = threading.Thread(target=client.loop_forever)
-
-thread_dht.start()
-thread_switch.start()
+    thread_dht.start()
+    thread_switch.start()
