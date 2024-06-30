@@ -3,6 +3,7 @@ import config as env
 import json as JSON
 
 prev_input = {pin: None for pin in env.gpio_input_pins}
+toggle_state = None
 
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
@@ -67,3 +68,19 @@ def gpio_listner(client):
                 except Exception as error:
                     print(f'Error setting up pin {pin}: {error}')
                     continue
+
+
+def gpio_room_toggle(client):
+    if env.toggle_pin is not None:
+        try:
+            gpio.setup(int(env.toggle_pin), gpio.IN)
+            while True:
+                input_state = gpio.input(int(env.toggle_pin))
+                if input_state != toggle_state:
+                    toggle_state = input_state
+                    client.publish(f'room/{env.room_id}/toggle',
+                                   JSON.dumps({'toggle': True if input_state == 1 else False}))
+        except Exception as error:
+            print(f'Error setting up pin {env.toggle_pin}: {error}')
+    else:
+        print('Toggle pin is not set')
