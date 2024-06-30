@@ -3,7 +3,7 @@ import config as env
 import json as JSON
 
 prev_input = {pin: None for pin in env.gpio_input_pins}
-toggle_state = None
+toggle_state = 0
 
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
