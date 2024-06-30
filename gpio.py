@@ -2,7 +2,7 @@ import RPi.GPIO as gpio
 import config as env
 import json as JSON
 
-prev_input = {pin: 0 for pin in env.gpio_input_pins}
+prev_input = {pin: None for pin in env.gpio_input_pins}
 
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
