@@ -52,4 +52,4 @@ if __name__ == "__main__":
 
     thread_dht.start()
     thread_switch_from_app.start()
-    # thread_gpio.start()
+    thread_gpio.start()
