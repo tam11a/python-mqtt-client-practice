@@ -42,5 +42,5 @@ def gpio_listner(client):
                 gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
                     client, x), bouncetime=200)
             except Exception as error:
-                print(error)
+                print(f'Error setting up pin {pin}: {error}')
                 continue
