@@ -39,8 +39,19 @@ def gpio_listner(client):
         if pin is not None:
             try:
                 gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
-                gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
-                    client, x), bouncetime=200)
+                # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
+                #     client, x), bouncetime=200)
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
                 continue
+    while True:
+        for pin in env.gpio_input_pins:
+            if pin is not None:
+                try:
+                    print(gpio.input(int(pin)))
+                    # gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
+                    # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
+                    #     client, x), bouncetime=200)
+                except Exception as error:
+                    print(f'Error setting up pin {pin}: {error}')
+                    continue
