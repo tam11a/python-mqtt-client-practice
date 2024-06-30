@@ -28,6 +28,14 @@ gpio_pins = [
     os.environ.get('GPIO_PIN_5'),
     os.environ.get('GPIO_PIN_6')
 ]
+gpio_input_pins = [
+    os.environ.get('GPIO_PIN_1_INPUT'),
+    os.environ.get('GPIO_PIN_2_INPUT'),
+    os.environ.get('GPIO_PIN_3_INPUT'),
+    os.environ.get('GPIO_PIN_4_INPUT'),
+    os.environ.get('GPIO_PIN_5_INPUT'),
+    os.environ.get('GPIO_PIN_6_INPUT')
+]
 
 
 # Patterns

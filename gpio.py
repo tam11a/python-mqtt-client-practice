@@ -1,5 +1,6 @@
 import RPi.GPIO as gpio
 import config as env
+import json as JSON
 
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
@@ -18,5 +19,22 @@ def gpio_action(switch_id, action):
             gpio.output(gpio_pin, gpio.LOW)
         else:
             print('Invalid action')
+    else:
+        print('Invalid switch_id')
+
+
+def gpio_listner(client):
+    for pin in env.gpio_input_pins:
+        if pin is not None:
+            gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
+            gpio.add_event_detect(int(pin), gpio.RISING, callback=lambda x: gpio_callback(
+                client, x), bouncetime=200)
+
+
+def gpio_callback(client, pin):
+    switch_id = env.switch_ids[env.gpio_input_pins.index(str(pin))]
+    if switch_id is not None:
+        client.publish(f'switch/{switch_id}/response', JSON.dumps(
+            {'status': gpio.input(pin)}))
     else:
         print('Invalid switch_id')

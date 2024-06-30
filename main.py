@@ -15,8 +15,8 @@ def on_switch_action(client, switch_id, payload):
     #
     #
     #
-    client.publish(f'switch/{switch_id}/response', JSON.dumps(
-        {'status': payload.get('action')}))
+    # client.publish(f'switch/{switch_id}/response', JSON.dumps(
+    #     {'status': payload.get('action')}))
 
 
 def on_connect(client, userdata, flags, rc):
@@ -44,9 +44,12 @@ if __name__ == "__main__":
 
     # Threads Initialization
 
-    thread_switch = threading.Thread(target=client.loop_forever)
+    thread_switch_from_app = threading.Thread(target=client.loop_forever)
     thread_dht = threading.Thread(
         target=DHT.dht_read, kwargs={'client': client})
+    thread_gpio = threading.Thread(
+        target=gpio.gpio_listner, kwargs={'client': client})
 
     thread_dht.start()
-    thread_switch.start()
+    thread_switch_from_app.start()
+    thread_gpio.start()
