@@ -17,10 +17,10 @@ def gpio_action(switch_id, action):
     if gpio_pin is not None:
         if action == True:
             gpio.output(gpio_pin, gpio.HIGH)
-            print(f'[Switch {switch_id}][Pin {gpio_pin}] turned ON')
+            print(f'[Switch {switch_id}][Pin {gpio_pin}] turned ON', action)
         elif action == False:
             gpio.output(gpio_pin, gpio.LOW)
-            print(f'[Switch {switch_id}][Pin {gpio_pin}] turned OFF')
+            print(f'[Switch {switch_id}][Pin {gpio_pin}] turned OFF', action)
         else:
             print('Invalid action')
     else:
@@ -59,8 +59,8 @@ def gpio_listner(client):
                             pin)]
                         print(f'Switch {switch_id} pressed',
                               f'pin: {pin}', input_state)
-                        client.publish(f'switch/{switch_id}/response', JSON.dumps(
-                            {'status': input_state}))
+                        # # client.publish(f'switch/{switch_id}/response', JSON.dumps(
+                        #     {'status': input_state}))
                     # gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
                     # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
                     #     client, x), bouncetime=200)
