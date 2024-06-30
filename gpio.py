@@ -34,6 +34,8 @@ def gpio_listner(client):
 def gpio_callback(client, pin):
     switch_id = env.switch_ids[env.gpio_input_pins.index(str(pin))]
     if switch_id is not None:
+        print(f'Switch {switch_id} pressed',
+              f'pin: {pin}', gpio.input(pin))
         client.publish(f'switch/{switch_id}/response', JSON.dumps(
             {'status': gpio.input(pin)}))
     else:
