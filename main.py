@@ -47,11 +47,10 @@ client.on_connect = on_connect
 client.on_message = on_message
 client.connect(env.mqtt_host, int(env.mqtt_port), 60)
 
-dht_read = DHT.dht_read
-client_loop_forever = client.loop_forever
-
 # Threads Initialization
-thread_dht = threading.Thread(DHT.dht_read, kwargs={'client': client})
+
+# thread_dht = threading.Thread(DHT.dht_read, kwargs={'client': client})
+thread_dht = threading.Thread(target=lambda: DHT.dht_read(client))
 thread_switch = threading.Thread(client.loop_forever)
 
 thread_dht.start()
