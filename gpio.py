@@ -17,8 +17,10 @@ def gpio_action(switch_id, action):
     if gpio_pin is not None:
         if action == True:
             gpio.output(gpio_pin, gpio.HIGH)
+            print(f'[Switch {switch_id}][Pin {gpio_pin}] turned ON')
         elif action == False:
             gpio.output(gpio_pin, gpio.LOW)
+            print(f'[Switch {switch_id}][Pin {gpio_pin}] turned OFF')
         else:
             print('Invalid action')
     else:
