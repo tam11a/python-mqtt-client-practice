@@ -13,6 +13,8 @@ def dht_read(client):
     if env.sensor_id is None:
         raise Exception('SENSOR_ID is not set')
 
+    time.sleep(5)  # 5 seconds sleep
+
     while True:
         try:
             humidity = dhtDevice.humidity
