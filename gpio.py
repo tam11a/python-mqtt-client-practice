@@ -23,14 +23,6 @@ def gpio_action(switch_id, action):
         print('Invalid switch_id')
 
 
-def gpio_listner(client):
-    for pin in env.gpio_input_pins:
-        if pin is not None:
-            gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
-            gpio.add_event_detect(int(pin), gpio.RISING, callback=lambda x: gpio_callback(
-                client, x), bouncetime=200)
-
-
 def gpio_callback(client, pin):
     switch_id = env.switch_ids[env.gpio_input_pins.index(str(pin))]
     if switch_id is not None:
@@ -40,3 +32,11 @@ def gpio_callback(client, pin):
             {'status': gpio.input(pin)}))
     else:
         print('Invalid switch_id')
+
+
+def gpio_listner(client):
+    for pin in env.gpio_input_pins:
+        if pin is not None:
+            gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
+            gpio.add_event_detect(int(pin), gpio.BOTH, callback=lambda x: gpio_callback(
+                client, x), bouncetime=200)
