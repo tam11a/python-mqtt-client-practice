@@ -78,6 +78,7 @@ def gpio_room_toggle(client):
                 input_state = gpio.input(int(env.toggle_pin))
                 if input_state != toggle_state:
                     toggle_state = input_state
+                    print(f'Toggle pressed', True if input_state == 1 else False)
                     client.publish(f'room/{env.room_id}/toggle',
                                    JSON.dumps({'toggle': True if input_state == 1 else False}))
         except Exception as error:
