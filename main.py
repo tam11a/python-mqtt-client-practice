@@ -24,7 +24,7 @@ def on_connect(client, userdata, flags, rc):
 
     for switch_id in env.switch_ids:
         if switch_id is not None:
-            client.subscribe(f'switch/{switch_id}/action')
+            client.subscribe(f'switch/{switch_id}/pending')
 
 
 def on_message(client, userdata, msg):
