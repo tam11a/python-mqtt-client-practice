@@ -23,7 +23,7 @@ def setTemperature(temperature):
         jsondb.safe_write_json(data)
         return True
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred [set-temperature]: {e}")
         return False
 
 
@@ -34,7 +34,7 @@ def setHumidity(humidity):
         jsondb.safe_write_json(data)
         return True
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred [set-humidity]: {e}")
         return False
 
 
@@ -52,7 +52,7 @@ def setSwitchStatus(switch_id, status):
         jsondb.safe_write_json(data)
         return True
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred [set-switch-status]: {e}")
         return False
 
 
@@ -70,5 +70,5 @@ def setRoomStatus(status):
         jsondb.safe_write_json(data)
         return True
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred [set-room-status]: {e}")
         return False
