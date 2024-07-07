@@ -17,10 +17,10 @@ for pin in env.gpio_pins:
 def gpio_action(switch_id, action):
     gpio_pin = int(env.gpio_pins[env.switch_ids.index(switch_id)])
     if gpio_pin is not None:
-        if action == True:
+        if action == False:
             gpio.output(gpio_pin, gpio.HIGH)
             print(f'[Switch {switch_id}][Pin {gpio_pin}] turned ON', action)
-        elif action == False:
+        elif action == True:
             gpio.output(gpio_pin, gpio.LOW)
             print(f'[Switch {switch_id}][Pin {gpio_pin}] turned OFF', action)
         else:
