@@ -5,7 +5,7 @@ import db
 
 prev_input = {pin: db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(
     pin)]) for pin in env.gpio_input_pins}
-toggle_state = 0
+toggle_state = db.getRoomStatus()
 
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
@@ -90,7 +90,7 @@ def gpio_room_toggle(client):
                     toggle_state = input_state
 
                     # Save to Local DB
-                    db.setRoomStatus(env.room_id, input_state)
+                    db.setRoomStatus(input_state)
 
                     print(f'Toggle pressed', True if input_state == 1 else False)
                     client.publish(f'room/{env.room_id}/toggle',

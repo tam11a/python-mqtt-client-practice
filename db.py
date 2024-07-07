@@ -1,5 +1,5 @@
 import json as JSON
-from config import local_file_path
+from config import local_file_path, room_id
 
 
 def getTemperature():
@@ -50,13 +50,13 @@ def setSwitchStatus(switch_id, status):
     return True
 
 
-def getRoomStatus(room_id):
+def getRoomStatus():
     file = open(local_file_path, 'r')
     data = JSON.load(file)
     return data.get(f'room_{room_id}')
 
 
-def setRoomStatus(room_id, status):
+def setRoomStatus(status):
     file = open(local_file_path, 'r')
     data = JSON.load(file)
     data[f'room_{room_id}'] = status
