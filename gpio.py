@@ -3,7 +3,8 @@ import config as env
 import json as JSON
 import db
 
-prev_input = {pin: db.getSwitchStatus(pin) for pin in env.gpio_input_pins}
+prev_input = {pin: db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(
+    pin)]) for pin in env.gpio_input_pins}
 toggle_state = 0
 
 # Setup GPIO pins
