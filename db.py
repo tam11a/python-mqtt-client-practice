@@ -10,15 +10,21 @@ with open(local_file_path, "r+") as file:
 
 
 def getTemperature():
-    file = open(local_file_path, 'r')
-    data = JSON.load(file)
-    return data.get('temperature')
+    try:
+        file = open(local_file_path, 'r')
+        data = JSON.load(file)
+        return data.get('temperature')
+    except:
+        return None
 
 
 def getHumidity():
-    file = open(local_file_path, 'r')
-    data = JSON.load(file)
-    return data.get('humidity')
+    try:
+        file = open(local_file_path, 'r')
+        data = JSON.load(file)
+        return data.get('humidity')
+    except:
+        return None
 
 
 def setTemperature(temperature):
@@ -42,9 +48,12 @@ def setHumidity(humidity):
 
 
 def getSwitchStatus(switch_id):
-    file = open(local_file_path, 'r')
-    data = JSON.load(file)
-    return data.get(f'switch_{switch_id}')
+    try:
+        file = open(local_file_path, 'r')
+        data = JSON.load(file)
+        return data.get(f'switch_{switch_id}')
+    except:
+        return None
 
 
 def setSwitchStatus(switch_id, status):
@@ -58,9 +67,12 @@ def setSwitchStatus(switch_id, status):
 
 
 def getRoomStatus():
-    file = open(local_file_path, 'r')
-    data = JSON.load(file)
-    return data.get(f'room_{room_id}')
+    try:
+        file = open(local_file_path, 'r')
+        data = JSON.load(file)
+        return data.get(f'room_{room_id}')
+    except:
+        return None
 
 
 def setRoomStatus(status):
