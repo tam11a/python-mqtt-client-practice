@@ -25,7 +25,9 @@ switch_ids = [
     os.environ.get('SWITCH_ID_3'),
     os.environ.get('SWITCH_ID_4'),
     os.environ.get('SWITCH_ID_5'),
-    os.environ.get('SWITCH_ID_6')
+    os.environ.get('SWITCH_ID_6'),
+    os.environ.get('SWITCH_ID_7'),
+    os.environ.get('SWITCH_ID_8'),
 ]
 gpio_pins = [
     os.environ.get('GPIO_PIN_1'),
@@ -33,7 +35,9 @@ gpio_pins = [
     os.environ.get('GPIO_PIN_3'),
     os.environ.get('GPIO_PIN_4'),
     os.environ.get('GPIO_PIN_5'),
-    os.environ.get('GPIO_PIN_6')
+    os.environ.get('GPIO_PIN_6'),
+    os.environ.get('GPIO_PIN_7'),
+    os.environ.get('GPIO_PIN_8'),
 ]
 gpio_input_pins = [
     os.environ.get('GPIO_PIN_1_INPUT'),
@@ -41,7 +45,9 @@ gpio_input_pins = [
     os.environ.get('GPIO_PIN_3_INPUT'),
     os.environ.get('GPIO_PIN_4_INPUT'),
     os.environ.get('GPIO_PIN_5_INPUT'),
-    os.environ.get('GPIO_PIN_6_INPUT')
+    os.environ.get('GPIO_PIN_6_INPUT'),
+    os.environ.get('GPIO_PIN_7_INPUT'),
+    os.environ.get('GPIO_PIN_8_INPUT'),
 ]
 
 
