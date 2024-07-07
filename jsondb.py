@@ -17,7 +17,7 @@ def safe_write_json(data):
                 os.fsync(temp_file.fileno())
             os.rename(temp_file_path, file_path)
     except Exception as e:
-        print(f"An error occurred [safe-write]: {e}")
+        print(f"An error occurred [safe-write]: {e} [path: {file_path}]")
         if os.path.exists(temp_file_path):
             os.remove(temp_file_path)
 
@@ -30,5 +30,5 @@ def safe_read_json():
             with open(file_path, 'r') as file:
                 return json.load(file)
         except Exception as e:
-            print(f"An error occurred [safe-read]: {e}")
+            print(f"An error occurred [safe-read]: {e} [path: {file_path}]")
             return {}
