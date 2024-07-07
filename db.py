@@ -1,6 +1,13 @@
 import json as JSON
 from config import local_file_path, room_id
 
+with open(local_file_path, "r+") as file:
+    try:
+        data = JSON.load(file)
+    except:
+        data = {}
+        JSON.dump(data, file)
+
 
 def getTemperature():
     file = open(local_file_path, 'r')
