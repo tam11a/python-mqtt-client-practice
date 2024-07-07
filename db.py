@@ -1,89 +1,74 @@
-import json as JSON
-from config import local_file_path, room_id
-
-with open(local_file_path, "r+") as file:
-    try:
-        data = JSON.load(file)
-    except:
-        print(file)
-        # file.write({})
+import jsondb
+from config import room_id
 
 
 def getTemperature():
     try:
-        file = open(local_file_path, 'r+')
-        data = JSON.load(file)
-        file.close()
-        return data.get('temperature')
+        return jsondb.safe_read_json().get('temperature')
     except:
         return None
 
 
 def getHumidity():
     try:
-        file = open(local_file_path, 'r+')
-        data = JSON.load(file)
-        file.close()
-        return data.get('humidity')
+        return jsondb.safe_read_json().get('humidity')
     except:
         return None
 
 
 def setTemperature(temperature):
-    file = open(local_file_path, 'r+')
-    data = JSON.load(file)
-    data['temperature'] = temperature
-    file = open(local_file_path, 'w+')
-    JSON.dump(data, file)
-    file.close()
-    return True
+    try:
+        data = jsondb.safe_read_json().get('temperature')
+        data['temperature'] = temperature
+        jsondb.safe_write_json(data)
+        return True
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
 
 
 def setHumidity(humidity):
-    file = open(local_file_path, 'r+')
-    data = JSON.load(file)
-    data['humidity'] = humidity
-    file = open(local_file_path, 'w+')
-    JSON.dump(data, file)
-    file.close()
-    return True
+    try:
+        data = jsondb.safe_read_json().get('humidity')
+        data['humidity'] = humidity
+        jsondb.safe_write_json(data)
+        return True
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
 
 
 def getSwitchStatus(switch_id):
     try:
-        file = open(local_file_path, 'r+')
-        data = JSON.load(file)
-        file.close()
-        return data.get(f'switch_{switch_id}')
+        return jsondb.safe_read_json().get(f'switch_{switch_id}')
     except:
         return None
 
 
 def setSwitchStatus(switch_id, status):
-    file = open(local_file_path, 'r+')
-    data = JSON.load(file)
-    data[f'switch_{switch_id}'] = status
-    file = open(local_file_path, 'w+')
-    JSON.dump(data, file)
-    file.close()
-    return True
+    try:
+        data = jsondb.safe_read_json().get(f'switch_{switch_id}')
+        data[f'switch_{switch_id}'] = status
+        jsondb.safe_write_json(data)
+        return True
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
 
 
 def getRoomStatus():
     try:
-        file = open(local_file_path, 'r+')
-        data = JSON.load(file)
-        file.close()
-        return data.get(f'room_{room_id}')
+        return jsondb.safe_read_json().get(f'room_{room_id}')
     except:
         return None
 
 
 def setRoomStatus(status):
-    file = open(local_file_path, 'r+')
-    data = JSON.load(file)
-    data[f'room_{room_id}'] = status
-    file = open(local_file_path, 'w+')
-    JSON.dump(data, file)
-    file.close()
-    return True
+    try:
+        data = jsondb.safe_read_json().get(f'room_{room_id}')
+        data[f'room_{room_id}'] = status
+        jsondb.safe_write_json(data)
+        return True
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
