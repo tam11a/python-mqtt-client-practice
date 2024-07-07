@@ -24,7 +24,7 @@ def safe_write_json(data):
 
 def safe_read_json():
     with file_lock:
-        if not os.path.exists():
+        if not os.path.exists(file_path):
             return {}
         try:
             with open(file_path, 'r') as file:
