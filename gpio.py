@@ -1,8 +1,9 @@
 import RPi.GPIO as gpio
 import config as env
 import json as JSON
+import db
 
-prev_input = {pin: None for pin in env.gpio_input_pins}
+prev_input = {pin: db.getSwitchStatus(pin) for pin in env.gpio_input_pins}
 toggle_state = 0
 
 # Setup GPIO pins
@@ -33,6 +34,7 @@ def gpio_callback(client, pin):
     if switch_id is not None:
         print(f'Switch {switch_id} pressed',
               f'pin: {pin}', gpio.input(pin))
+        db.setSwitchStatus(switch_id, gpio.input(pin))
         client.publish(f'switch/{switch_id}/response', JSON.dumps(
             {'status': gpio.input(pin)}))
     else:
@@ -58,13 +60,18 @@ def gpio_listner(client):
                         prev_input[pin] = input_state
                         switch_id = env.switch_ids[env.gpio_input_pins.index(
                             pin)]
+
+                        # Save to Local DB
+                        db.setSwitchStatus(switch_id, input_state)
+
                         print(f'Switch {switch_id} pressed',
                               f'pin: {pin}', True if input_state == 1 else False)
+
                         client.publish(
                             f'switch/{switch_id}/response', JSON.dumps({'status': True if input_state == 1 else False}))
-                    # gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
-                    # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
-                    #     client, x), bouncetime=200)
+                        # gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
+                        # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
+                        #     client, x), bouncetime=200)
                 except Exception as error:
                     print(f'Error setting up pin {pin}: {error}')
                     continue
@@ -78,6 +85,10 @@ def gpio_room_toggle(client):
                 input_state = gpio.input(int(env.toggle_pin))
                 if input_state != toggle_state:
                     toggle_state = input_state
+
+                    # Save to Local DB
+                    db.setRoomStatus(env.room_id, input_state)
+
                     print(f'Toggle pressed', True if input_state == 1 else False)
                     client.publish(f'room/{env.room_id}/toggle',
                                    JSON.dumps({'toggle': True if input_state == 1 else False}))

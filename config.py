@@ -6,6 +6,8 @@ load_dotenv()
 # ENVIRONMENT VARIABLES
 # Path: .env
 
+local_file_path = 'local_data/data.json'
+
 mqtt_host = os.environ.get('MQTT_HOST')
 mqtt_port = os.environ.get('MQTT_PORT', 1883)
 

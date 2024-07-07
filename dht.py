@@ -3,6 +3,7 @@ import adafruit_dht
 import config as env
 import json as JSON
 import time
+import db
 
 # Initial the dht device, with data pin connected to:
 dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
@@ -23,6 +24,10 @@ def dht_read(client):
 
             print({'temperature_c': temperature_c,
                    'temperature_f': temperature_f, 'humidity': humidity})
+
+            # Save to Local DB
+            db.setTemperature(temperature_c)
+            db.setHumidity(humidity)
 
             if client is not None:
                 client.publish(f'sensor/{env.sensor_id}/live', JSON.dumps(
