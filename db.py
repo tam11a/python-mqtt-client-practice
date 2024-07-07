@@ -5,8 +5,13 @@ with open(local_file_path, "r+") as file:
     try:
         data = JSON.load(file)
     except:
-        data = {}
-        JSON.dump(data, file)
+        if file.read() == '':
+            data = {}
+            JSON.dump(data, file)
+        elif file.read() != '':
+            file.write('')
+            data = {}
+            JSON.dump(data, file)
 
 
 def getTemperature():
