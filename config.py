@@ -1,12 +1,14 @@
 import re
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
+cwd = os.getcwd()
 
 # ENVIRONMENT VARIABLES
 # Path: .env
 
-local_file_path = 'local_data/data.json'
+local_file_path = f'{cwd}/local_data/data.json'
 
 mqtt_host = os.environ.get('MQTT_HOST')
 mqtt_port = os.environ.get('MQTT_PORT', 1883)
