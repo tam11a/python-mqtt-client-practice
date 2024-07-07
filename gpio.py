@@ -56,6 +56,7 @@ def gpio_listner(client):
             if pin is not None:
                 try:
                     input_state = gpio.input(int(pin))
+                    print('[GPIO LISTNER]', input_state, prev_input[pin])
                     if input_state != prev_input[pin]:
                         prev_input[pin] = input_state
                         switch_id = env.switch_ids[env.gpio_input_pins.index(
