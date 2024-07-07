@@ -67,10 +67,10 @@ def gpio_listner(client):
                         db.setSwitchStatus(switch_id, input_state)
 
                         print(f'Switch {switch_id} pressed',
-                              f'pin: {pin}', True if input_state == 1 else False)
+                              f'pin: {pin}', True if input_state == 0 else False)
 
                         client.publish(
-                            f'switch/{switch_id}/response', JSON.dumps({'status': True if input_state == 1 else False}))
+                            f'switch/{switch_id}/response', JSON.dumps({'status': True if input_state == 0 else False}))
                         # gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
                         # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
                         #     client, x), bouncetime=200)
