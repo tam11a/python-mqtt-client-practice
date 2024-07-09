@@ -12,14 +12,14 @@ pending_input = {pin: {
 prev_input = {pin: db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(
     pin)]) for pin in env.gpio_input_pins}
 
-print('[GPIO]', pending_input, prev_input)
+print('[GPIO]', pending_input, prev_input, flush=True)
 
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
 
 for pin in env.gpio_pins:
     if pin is not None:
-        print('Setting up pin', pin, 'as output')
+        print('Setting up pin', pin, 'as output', flush=True)
         gpio.setup(int(pin), gpio.OUT)
 
 
