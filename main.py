@@ -48,7 +48,7 @@ if __name__ == "__main__":
     thread_dht = threading.Thread(
         target=DHT.dht_read, kwargs={'client': client})
     thread_gpio = threading.Thread(
-        target=gpio.gpio_event_listner, kwargs={'client': client})
+        target=gpio.gpio_zero_listner, kwargs={'client': client})
     threan_room_toggle = threading.Thread(
         target=gpio.gpio_room_toggle, kwargs={'client': client})
 
