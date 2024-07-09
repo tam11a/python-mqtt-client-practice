@@ -2,12 +2,12 @@ import RPi.GPIO as gpio
 import config as env
 import json as JSON
 import db
-# from datetime import datetime
+from datetime import datetime
 
-# pending_input = {pin: {
-#     'state': db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(pin)]),
-#     'timestamp': datetime.now()
-# } for pin in env.gpio_input_pins}
+pending_input = {pin: {
+    'state': db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(pin)]),
+    'timestamp': datetime.now()
+} for pin in env.gpio_input_pins}
 
 prev_input = {pin: db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(
     pin)]) for pin in env.gpio_input_pins}
