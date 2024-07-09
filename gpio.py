@@ -3,6 +3,7 @@ import config as env
 import json as JSON
 import db
 from datetime import datetime
+from gpiozero import Button
 
 pending_input = {pin: {
     'state': db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(pin)]),
@@ -41,18 +42,6 @@ def gpio_action(switch_id, action):
         print('Invalid switch_id')
 
 
-def gpio_callback(client, pin):
-    switch_id = env.switch_ids[env.gpio_input_pins.index(str(pin))]
-    if switch_id is not None:
-        print(f'Switch {switch_id} pressed',
-              f'pin: {pin}', gpio.input(pin))
-        db.setSwitchStatus(switch_id, gpio.input(pin))
-        client.publish(f'switch/{switch_id}/response', JSON.dumps(
-            {'status': gpio.input(pin)}))
-    else:
-        print('Invalid switch_id')
-
-
 def gpio_listner(client):
     for pin in env.gpio_input_pins:
         if pin is not None:
@@ -70,27 +59,69 @@ def gpio_listner(client):
                     input_state = gpio.input(int(pin))
                     temp_pin = str(env.gpio_pins[env.gpio_input_pins.index(
                         pin)])
+                    # pending_input[temp_pin] == None or (datetime.now() - pending_input[temp_pin].timestamp).total_seconds > 10
+                    print('[GPIO LISTNER]', pending_input[temp_pin]
+                          is None or input_state != prev_input[pin])
+                    # if pending_input[temp_pin] is None or (datetime.now() - pending_input[temp_pin]['timestamp']).total_seconds > 10 or
+                    if input_state != prev_input[pin]:
+                        prev_input[pin] = input_state
+                        switch_id = env.switch_ids[env.gpio_input_pins.index(
+                            pin)]
 
-                    if pending_input[temp_pin] is None or (datetime.now() - pending_input[temp_pin]['timestamp']).total_seconds > 10:
-                        if input_state != prev_input[pin]:
-                            prev_input[pin] = input_state
-                            switch_id = env.switch_ids[env.gpio_input_pins.index(
-                                pin)]
+                        # Save to Local DB
+                        db.setSwitchStatus(switch_id, input_state)
 
-                            # Save to Local DB
-                            db.setSwitchStatus(switch_id, input_state)
+                        print(f'Switch {switch_id} pressed',
+                              f'pin: {pin}', True if input_state == 0 else False)
 
-                            print(f'Switch {switch_id} pressed',
-                                  f'pin: {pin}', True if input_state == 0 else False)
-
-                            client.publish(
-                                f'switch/{switch_id}/response', JSON.dumps({'status': True if input_state == 0 else False}))
-                            # gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
-                            # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
-                            #     client, x), bouncetime=200)
+                        client.publish(
+                            f'switch/{switch_id}/response', JSON.dumps({'status': True if input_state == 0 else False}))
+                        # gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
+                        # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
+                        #     client, x), bouncetime=200)
                 except Exception as error:
                     print(f'Error setting up pin {pin}: {error}')
                     continue
+
+
+def gpio_callback(client, pin):
+    switch_id = env.switch_ids[env.gpio_input_pins.index(str(pin))]
+    if switch_id is not None:
+        print(f'Switch {switch_id} pressed',
+              f'pin: {pin}', gpio.input(pin))
+        db.setSwitchStatus(switch_id, gpio.input(pin))
+        client.publish(f'switch/{switch_id}/response', JSON.dumps(
+            {'status': gpio.input(pin)}))
+    else:
+        print('Invalid switch_id')
+
+
+def gpio_zero_callback(client, pin, status):
+    switch_id = env.switch_ids[env.gpio_input_pins.index(str(pin))]
+    if switch_id is not None:
+        print(f'Switch {switch_id} pressed',
+              f'pin: {pin}', status)
+        # db.setSwitchStatus(switch_id, status)
+        # client.publish(f'switch/{switch_id}/response', JSON.dumps(
+        #     {'status': status}))
+    else:
+        print('Invalid switch_id')
+
+
+def gpio_zero_listner(client):
+    for pin in env.gpio_input_pins:
+        if pin is not None:
+            try:
+                button = Button(int(pin))
+                button.when_pressed = lambda: gpio_zero_callback(
+                    client, pin, False)
+                button.when_released = lambda: gpio_zero_callback(
+                    client, pin, True)
+            except Exception as error:
+                print(f'Error setting up pin {pin}: {error}')
+                continue
+    while True:
+        pass
 
 
 def gpio_room_toggle(client):
