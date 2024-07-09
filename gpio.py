@@ -12,7 +12,7 @@ pending_input = {pin: {
 prev_input = {pin: db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(
     pin)]) for pin in env.gpio_input_pins}
 
-# print('[GPIO]', pending_input, prev_input, flush=True)
+print('[GPIO]', pending_input, prev_input, flush=True)
 
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
@@ -74,6 +74,7 @@ def gpio_listner(client):
                     #       pin, env.switch_ids[env.gpio_input_pins.index(pin)])
                     temp_pin = str(env.gpio_pins[env.gpio_input_pins.index(
                         pin)])
+                    # or (datetime.now() - pending_input[temp_pin].timestamp).total_seconds > 10
                     if pending_input[temp_pin] == None or input_state != prev_input[pin]:
                         pending_input[temp_pin] = None
                         # if input_state != prev_input[pin]:
