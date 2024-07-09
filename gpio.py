@@ -87,7 +87,7 @@ def gpio_listner(client):
 
 
 # Initialize the gpiochip and configure the switch_pin as input
-h = lgpio.gpiochip_open(0)
+h = lgpio.gpiochip_open(1)
 
 
 def edge_detected(event, level, tick):
