@@ -3,6 +3,7 @@ import config as env
 import json as JSON
 import db
 from datetime import datetime
+import time
 from gpiozero import Button
 
 pending_input = {pin: {
@@ -110,7 +111,7 @@ def gpio_zero_listner(client):
                 print(f'Error setting up pin {pin}: {error}')
                 continue
     while True:
-        pass
+        time.sleep(1)
 
 
 def gpio_room_toggle(client):
