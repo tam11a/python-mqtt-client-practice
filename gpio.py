@@ -4,7 +4,7 @@ import json as JSON
 import db
 from datetime import datetime
 
-pending_input = {pin: {
+pending_input = {int(pin): {
     'state': db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(pin)]),
     'timestamp': datetime.now()
 } for pin in env.gpio_input_pins}
@@ -70,8 +70,10 @@ def gpio_listner(client):
                     input_state = gpio.input(int(pin))
                     # print('[GPIO LISTNER]', input_state, prev_input[pin],
                     #       pin, env.switch_ids[env.gpio_input_pins.index(pin)])
-                    if pending_input[int(pin)] == None or (datetime.now() - pending_input[int(pin)].timestamp).total_seconds > 10 or input_state != prev_input[pin]:
-                        # pending_input[int(pin)] = None
+                    temp_pin = int(env.gpio_pins[env.gpio_input_pins.index(
+                        pin)])
+                    if pending_input[temp_pin] == None or (datetime.now() - pending_input[temp_pin].timestamp).total_seconds > 10 or input_state != prev_input[pin]:
+                        pending_input[temp_pin] = None
                         # if input_state != prev_input[pin]:
                         prev_input[pin] = input_state
                         switch_id = env.switch_ids[env.gpio_input_pins.index(
