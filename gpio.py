@@ -3,7 +3,7 @@ import config as env
 import json as JSON
 import db
 from datetime import datetime
-from gpiozero import LineSensor
+from gpiozero import Button
 
 pending_input = {pin: {
     'state': db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(pin)]),
@@ -101,10 +101,10 @@ def gpio_zero_listner(client):
     for pin in env.gpio_input_pins:
         if pin is not None:
             try:
-                button = LineSensor(int(pin))
-                button.when_line = lambda: gpio_zero_callback(
+                button = Button(int(pin))
+                button.when_pressed = gpio_zero_callback(
                     client, pin, True)
-                button.when_no_line = lambda: gpio_zero_callback(
+                button.when_released = gpio_zero_callback(
                     client, pin, False)
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
