@@ -4,7 +4,7 @@ import json as JSON
 import db
 from datetime import datetime
 
-pending_input = {int(pin): {
+pending_input = {pin: {
     'state': db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(pin)]),
     'timestamp': datetime.now()
 } for pin in env.gpio_input_pins}
@@ -29,12 +29,14 @@ def gpio_action(switch_id, action):
         if action == True:
             gpio.output(gpio_pin, gpio.HIGH)
             print(f'[Switch {switch_id}][Pin {gpio_pin}] turned ON', action)
-            pending_input[gpio_pin] = {'state': 1, 'timestamp': datetime.now()}
+            pending_input[str(gpio_pin)] = {
+                'state': 1, 'timestamp': datetime.now()}
 
         elif action == False:
             gpio.output(gpio_pin, gpio.LOW)
             print(f'[Switch {switch_id}][Pin {gpio_pin}] turned OFF', action)
-            pending_input[gpio_pin] = {'state': 0, 'timestamp': datetime.now()}
+            pending_input[str(gpio_pin)] = {
+                'state': 0, 'timestamp': datetime.now()}
         else:
             print('Invalid action')
     else:
@@ -70,7 +72,7 @@ def gpio_listner(client):
                     input_state = gpio.input(int(pin))
                     # print('[GPIO LISTNER]', input_state, prev_input[pin],
                     #       pin, env.switch_ids[env.gpio_input_pins.index(pin)])
-                    temp_pin = int(env.gpio_pins[env.gpio_input_pins.index(
+                    temp_pin = str(env.gpio_pins[env.gpio_input_pins.index(
                         pin)])
                     if pending_input[temp_pin] == None or (datetime.now() - pending_input[temp_pin].timestamp).total_seconds > 10 or input_state != prev_input[pin]:
                         pending_input[temp_pin] = None
