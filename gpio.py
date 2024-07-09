@@ -86,32 +86,15 @@ def gpio_listner(client):
                     continue
 
 
-# Initialize the gpiochip and configure the switch_pin as input
-h = lgpio.gpiochip_open(1)
-
-
-def edge_detected(event, level, tick):
-    print(f"Edge detected: event={event}, level={level}, tick={tick}")
-    if level == 1:
-        print("Switch pressed")
-    else:
-        print("Switch released")
-
-
 def gpio_event_listner(client):
     for pin in env.gpio_input_pins:
         if pin is not None:
             try:
-                # gpio.setup(int(pin), gpio.IN, gpio.PUD_UP)
-                # gpio.add_event_detect(
-                #     int(pin), gpio.FALLING, callback=lambda: gpio_zero_callback(client, pin, True))
-                # gpio.add_event_detect(
-                #     int(pin), gpio.RISING, callback=lambda: gpio_zero_callback(client, pin, False))
-                lgpio.gpio_claim_input(h, int(pin))
-                lgpio.callback(h, int(pin), lgpio.RISING_EDGE,
-                               edge_detected)
-                lgpio.callback(h, int(pin), lgpio.FALLING_EDGE,
-                               edge_detected)
+                gpio.setup(int(pin), gpio.IN, gpio.PUD_UP)
+                gpio.add_event_detect(
+                    int(pin), lgpio.FALLING_EDGE, callback=lambda: gpio_zero_callback(client, pin, True))
+                gpio.add_event_detect(
+                    int(pin), lgpio.RISING_EDGE, callback=lambda: gpio_zero_callback(client, pin, False))
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
                 continue
