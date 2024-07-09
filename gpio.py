@@ -5,6 +5,7 @@ import db
 from datetime import datetime
 import time
 from gpiozero import Button
+from signal import pause
 
 pending_input = {pin: {
     'state': db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(pin)]),
@@ -126,8 +127,7 @@ def gpio_zero_listner(client):
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
                 continue
-    while True:
-        time.sleep(1)
+    pause()
 
 
 def gpio_room_toggle(client):
