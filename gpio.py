@@ -29,12 +29,12 @@ def gpio_action(switch_id, action):
         if action == True:
             gpio.output(gpio_pin, gpio.HIGH)
             print(f'[Switch {switch_id}][Pin {gpio_pin}] turned ON', action)
-            # pending_input[gpio_pin] = {'state': 1, 'timestamp': datetime.now()}
+            pending_input[gpio_pin] = {'state': 1, 'timestamp': datetime.now()}
 
         elif action == False:
             gpio.output(gpio_pin, gpio.LOW)
             print(f'[Switch {switch_id}][Pin {gpio_pin}] turned OFF', action)
-            # pending_input[gpio_pin] = {'state': 0, 'timestamp': datetime.now()}
+            pending_input[gpio_pin] = {'state': 0, 'timestamp': datetime.now()}
         else:
             print('Invalid action')
     else:
