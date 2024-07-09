@@ -127,6 +127,7 @@ def gpio_zero_listner(client):
                 print(f'Error setting up pin {pin}: {error}')
                 continue
     while True:
+        print('GPIO Zero Listner')
         time.sleep(1)
 
 
