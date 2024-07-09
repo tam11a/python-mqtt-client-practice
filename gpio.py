@@ -70,25 +70,24 @@ def gpio_listner(client):
                     input_state = gpio.input(int(pin))
                     temp_pin = str(env.gpio_pins[env.gpio_input_pins.index(
                         pin)])
-                    # pending_input[temp_pin] == None or (datetime.now() - pending_input[temp_pin].timestamp).total_seconds > 10
-                    print('[GPIO LISTNER]', pending_input[temp_pin]
-                          is None or input_state != prev_input[pin])
-                    if pending_input[temp_pin] is None or input_state != prev_input[pin]:
-                        prev_input[pin] = input_state
-                        switch_id = env.switch_ids[env.gpio_input_pins.index(
-                            pin)]
 
-                        # Save to Local DB
-                        db.setSwitchStatus(switch_id, input_state)
+                    if pending_input[temp_pin] is None or (datetime.now() - pending_input[temp_pin]['timestamp']).total_seconds > 10:
+                        if input_state != prev_input[pin]:
+                            prev_input[pin] = input_state
+                            switch_id = env.switch_ids[env.gpio_input_pins.index(
+                                pin)]
 
-                        print(f'Switch {switch_id} pressed',
-                              f'pin: {pin}', True if input_state == 0 else False)
+                            # Save to Local DB
+                            db.setSwitchStatus(switch_id, input_state)
 
-                        client.publish(
-                            f'switch/{switch_id}/response', JSON.dumps({'status': True if input_state == 0 else False}))
-                        # gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
-                        # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
-                        #     client, x), bouncetime=200)
+                            print(f'Switch {switch_id} pressed',
+                                  f'pin: {pin}', True if input_state == 0 else False)
+
+                            client.publish(
+                                f'switch/{switch_id}/response', JSON.dumps({'status': True if input_state == 0 else False}))
+                            # gpio.setup(int(pin), gpio.IN, pull_up_down=gpio.PUD_DOWN)
+                            # gpio.add_event_detect(int(pin), edge=gpio.BOTH, callback=lambda x: gpio_callback(
+                            #     client, x), bouncetime=200)
                 except Exception as error:
                     print(f'Error setting up pin {pin}: {error}')
                     continue
