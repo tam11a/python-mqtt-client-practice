@@ -85,6 +85,7 @@ def gpio_listner(client):
 
 
 def gpio_zero_callback(client, pin, status):
+    print('[GPIO ZERO CALLBACK]', pin, status)
     switch_id = env.switch_ids[env.gpio_input_pins.index(str(pin))]
     if switch_id is not None:
         print(f'Switch {switch_id} pressed',
