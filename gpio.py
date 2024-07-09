@@ -2,17 +2,17 @@ import RPi.GPIO as gpio
 import config as env
 import json as JSON
 import db
-from datetime import datetime
+# from datetime import datetime
 
-pending_input = {pin: {
-    'state': db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(pin)]),
-    'timestamp': datetime.now()
-} for pin in env.gpio_input_pins}
+# pending_input = {pin: {
+#     'state': db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(pin)]),
+#     'timestamp': datetime.now()
+# } for pin in env.gpio_input_pins}
 
 prev_input = {pin: db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(
     pin)]) for pin in env.gpio_input_pins}
 
-print('[GPIO]', pending_input, prev_input, flush=True)
+# print('[GPIO]', pending_input, prev_input, flush=True)
 
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
@@ -29,12 +29,12 @@ def gpio_action(switch_id, action):
         if action == True:
             gpio.output(gpio_pin, gpio.HIGH)
             print(f'[Switch {switch_id}][Pin {gpio_pin}] turned ON', action)
-            pending_input[gpio_pin] = {'state': 1, 'timestamp': datetime.now()}
+            # pending_input[gpio_pin] = {'state': 1, 'timestamp': datetime.now()}
 
         elif action == False:
             gpio.output(gpio_pin, gpio.LOW)
             print(f'[Switch {switch_id}][Pin {gpio_pin}] turned OFF', action)
-            pending_input[gpio_pin] = {'state': 0, 'timestamp': datetime.now()}
+            # pending_input[gpio_pin] = {'state': 0, 'timestamp': datetime.now()}
         else:
             print('Invalid action')
     else:
@@ -70,8 +70,9 @@ def gpio_listner(client):
                     input_state = gpio.input(int(pin))
                     # print('[GPIO LISTNER]', input_state, prev_input[pin],
                     #       pin, env.switch_ids[env.gpio_input_pins.index(pin)])
-                    if pending_input[int(pin)] == None or (datetime.now() - pending_input[int(pin)].timestamp).total_seconds > 10 or input_state != prev_input[pin]:
-                        pending_input[pin] = None
+                    # if pending_input[int(pin)] == None or (datetime.now() - pending_input[int(pin)].timestamp).total_seconds > 10 or input_state != prev_input[pin]:
+                    #     pending_input[pin] = None
+                    if input_state != prev_input[pin]:
                         prev_input[pin] = input_state
                         switch_id = env.switch_ids[env.gpio_input_pins.index(
                             pin)]
