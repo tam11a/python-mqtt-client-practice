@@ -73,7 +73,7 @@ def gpio_listner(client):
                     temp_pin = str(env.gpio_pins[env.gpio_input_pins.index(
                         pin)])
                     print('[GPIO LISTNER]',
-                          pending_input[temp_pin], datetime.now())
+                          pending_input[temp_pin])
                     # pending_input[temp_pin] == None or (datetime.now() - pending_input[temp_pin].timestamp).total_seconds > 10
                     if input_state != prev_input[pin]:
                         # pending_input[temp_pin] = None
