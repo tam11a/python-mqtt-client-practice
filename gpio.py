@@ -4,17 +4,22 @@ import json as JSON
 import db
 from datetime import datetime
 
-pending_input = {pin: None for pin in env.gpio_input_pins}
+pending_input = {pin: {
+    'state': db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(pin)]),
+    'timestamp': datetime.now()
+} for pin in env.gpio_input_pins}
 
 prev_input = {pin: db.getSwitchStatus(env.switch_ids[env.gpio_input_pins.index(
     pin)]) for pin in env.gpio_input_pins}
 
+print('[GPIO]', pending_input, prev_input)
 
 # Setup GPIO pins
 gpio.setmode(gpio.BCM)
 
 for pin in env.gpio_pins:
     if pin is not None:
+        print('Setting up pin', pin, 'as output')
         gpio.setup(int(pin), gpio.OUT)
 
 
