@@ -124,7 +124,7 @@ def button_released():
 
 
 def gpio_zero_listner(client):
-    buttons = []
+    buttons = [None for pin in env.gpio_input_pins]
     for pin in env.gpio_input_pins:
         if pin is not None:
             print('Setting up pin', pin, 'as input', flush=True)
