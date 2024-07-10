@@ -128,7 +128,8 @@ def gpio_zero_listner(client):
         if pin is not None:
             print('Setting up pin', pin, 'as input', flush=True)
             try:
-                button = Button(int(pin))
+                button = Button(5)
+                # button = Button(int(pin))
                 # button.when_pressed = lambda: gpio_zero_callback(
                 #     client, pin, True)
                 # button.when_released = lambda: gpio_zero_callback(
