@@ -146,6 +146,7 @@ def gpio_zero_listner(client):
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
                 continue
+    print(buttons)
     pause()
 
 
