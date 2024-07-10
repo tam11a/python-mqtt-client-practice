@@ -126,6 +126,7 @@ def button_released():
 def gpio_zero_listner(client):
     for pin in env.gpio_input_pins:
         if pin is not None:
+            print('Setting up pin', pin, 'as input', flush=True)
             try:
                 button = Button(int(pin))
                 # button.when_pressed = lambda: gpio_zero_callback(
