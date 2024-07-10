@@ -133,11 +133,11 @@ def gpio_zero_listner(client):
 
                 # event
                 buttons[env.gpio_input_pins.index(
-                    pin)].when_pressed = lambda: gpio_zero_callback(
+                    pin)].when_pressed = lambda pin=pin: gpio_zero_callback(
                     client, pin, True)
 
                 buttons[env.gpio_input_pins.index(
-                    pin)].when_released = lambda: gpio_zero_callback(
+                    pin)].when_released = lambda pin=pin: gpio_zero_callback(
                     client, pin, False)
 
             except Exception as error:
