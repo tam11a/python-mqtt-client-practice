@@ -102,11 +102,7 @@ def gpio_event_listner(client):
         time.sleep(1)
 
 
-buttons = [None for pin in env.gpio_input_pins]
-
-
 def gpio_zero_callback(client, pin, status):
-    print(buttons)
     print('[GPIO ZERO CALLBACK]', pin, status)
     switch_id = env.switch_ids[env.gpio_input_pins.index(str(pin))]
     if switch_id is not None:
@@ -127,13 +123,17 @@ def button_released():
     print("Button was released!")
 
 
+buttons = []
+
+
 def gpio_zero_listner(client):
     for pin in env.gpio_input_pins:
         if pin is not None:
+
             print('Setting up pin', pin, 'as input', flush=True)
             try:
-                # button = Button(5)
-                buttons[env.gpio_input_pins.index(pin)] = Button(int(pin))
+                # button
+                buttons.append(Button(int(pin)))
 
                 # sync
                 gpio_zero_callback(
