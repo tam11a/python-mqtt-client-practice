@@ -108,19 +108,11 @@ def gpio_zero_callback(client, pin, status):
     if switch_id is not None:
         print(f'Switch {switch_id} pressed',
               f'pin: {pin}', status)
-        # db.setSwitchStatus(switch_id, status)
-        # client.publish(f'switch/{switch_id}/response', JSON.dumps(
-        #     {'status': status}))
+        db.setSwitchStatus(switch_id, status)
+        client.publish(f'switch/{switch_id}/response', JSON.dumps(
+            {'status': status}))
     else:
         print('Invalid switch_id')
-
-
-def button_pressed():
-    print("Button was pressed!")
-
-
-def button_released():
-    print("Button was released!")
 
 
 def gpio_zero_listner(client):
@@ -128,14 +120,13 @@ def gpio_zero_listner(client):
         if pin is not None:
             print('Setting up pin', pin, 'as input', flush=True)
             try:
-                button = Button(5)
-                # button = Button(int(pin))
-                # button.when_pressed = lambda: gpio_zero_callback(
-                #     client, pin, True)
-                # button.when_released = lambda: gpio_zero_callback(
-                #     client, pin, False)
-                button.when_pressed = button_pressed
-                button.when_released = button_released
+                # button = Button(5)
+                button = Button(int(pin))
+                button.when_pressed = lambda: gpio_zero_callback(
+                    client, pin, True)
+                button.when_released = lambda: gpio_zero_callback(
+                    client, pin, False)
+
                 print(button.is_pressed)
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
