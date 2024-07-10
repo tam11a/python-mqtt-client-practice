@@ -124,23 +124,27 @@ def button_released():
 
 
 def gpio_zero_listner(client):
+    buttons = []
     for pin in env.gpio_input_pins:
         if pin is not None:
             print('Setting up pin', pin, 'as input', flush=True)
             try:
                 # button = Button(5)
-                button = Button(int(pin))
+                buttons[env.gpio_input_pins.index(pin)] = Button(int(pin))
 
                 # sync
-                gpio_zero_callback(client, pin, button.is_pressed)
+                gpio_zero_callback(
+                    client, pin, buttons[env.gpio_input_pins.index(pin)].is_pressed)
 
                 # button.when_pressed = lambda: gpio_zero_callback(
                 #     client, pin, True)
                 # button.when_released = lambda: gpio_zero_callback(
                 #     client, pin, False)
 
-                button.when_pressed = button_pressed
-                button.when_released = button_released
+                buttons[env.gpio_input_pins.index(
+                    pin)].when_pressed = button_pressed
+                buttons[env.gpio_input_pins.index(
+                    pin)].when_released = button_released
 
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
