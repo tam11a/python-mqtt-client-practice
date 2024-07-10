@@ -106,14 +106,22 @@ buttons = []
 
 
 def gpio_zero_callback(client, pin, status):
-    print('[GPIO ZERO CALLBACK]', client, pin, status)
+    print('[GPIO ZERO CALLBACK]', pin, status)
+
     switch_id = env.switch_ids[env.gpio_input_pins.index(str(pin))]
+
     if switch_id is not None:
+
         print(f'Switch {switch_id} pressed',
               f'pin: {pin}', status)
+
         db.setSwitchStatus(switch_id, status)
-        client.publish(f'switch/{switch_id}/response', JSON.dumps(
-            {'status': status}))
+
+        if client:
+            client.publish(f'switch/{switch_id}/response', JSON.dumps(
+                {'status': status}))
+        else:
+            print('Client is not set up')
     else:
         print('Invalid switch_id')
 
