@@ -135,6 +135,7 @@ def gpio_zero_listner(client):
                 #     client, pin, False)
                 button.when_pressed = button_pressed
                 button.when_released = button_released
+                print(button.is_pressed)
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
                 continue
