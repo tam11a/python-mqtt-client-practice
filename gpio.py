@@ -115,6 +115,14 @@ def gpio_zero_callback(client, pin, status):
         print('Invalid switch_id')
 
 
+def button_pressed():
+    print("Button was pressed!")
+
+
+def button_released():
+    print("Button was released!")
+
+
 def gpio_zero_listner(client):
     for pin in env.gpio_input_pins:
         if pin is not None:
@@ -123,12 +131,17 @@ def gpio_zero_listner(client):
                 # button = Button(5)
                 button = Button(int(pin))
 
+                # sync
                 gpio_zero_callback(client, pin, button.is_pressed)
 
-                button.when_pressed = lambda: gpio_zero_callback(
-                    client, pin, True)
-                button.when_released = lambda: gpio_zero_callback(
-                    client, pin, False)
+                # button.when_pressed = lambda: gpio_zero_callback(
+                #     client, pin, True)
+                # button.when_released = lambda: gpio_zero_callback(
+                #     client, pin, False)
+
+                button.when_pressed = button_pressed
+                button.when_released = button_released
+
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
                 continue
