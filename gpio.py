@@ -122,12 +122,13 @@ def gpio_zero_listner(client):
             try:
                 # button = Button(5)
                 button = Button(int(pin))
+
+                gpio_zero_callback(client, pin, button.is_pressed)
+
                 button.when_pressed = lambda: gpio_zero_callback(
                     client, pin, True)
                 button.when_released = lambda: gpio_zero_callback(
                     client, pin, False)
-
-                print(button.is_pressed)
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
                 continue
