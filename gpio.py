@@ -106,7 +106,7 @@ buttons = []
 
 
 def gpio_zero_callback(client, pin, status):
-    print('[GPIO ZERO CALLBACK]', pin, status)
+    print('[GPIO ZERO CALLBACK]', client, pin, status)
     switch_id = env.switch_ids[env.gpio_input_pins.index(str(pin))]
     if switch_id is not None:
         print(f'Switch {switch_id} pressed',
@@ -116,10 +116,6 @@ def gpio_zero_callback(client, pin, status):
             {'status': status}))
     else:
         print('Invalid switch_id')
-
-
-def hello(**kwargs):
-    print('Hello', kwargs)
 
 
 def gpio_zero_listner(client):
@@ -135,17 +131,14 @@ def gpio_zero_listner(client):
                 gpio_zero_callback(
                     client, pin, buttons[env.gpio_input_pins.index(pin)].is_pressed)
 
-                # buttons[env.gpio_input_pins.index(
-                #     pin)].when_pressed = lambda: gpio_zero_callback(
-                #     client, pin, True)
-                # buttons[env.gpio_input_pins.index(
-                #     pin)].when_released = lambda: gpio_zero_callback(
-                #     client, pin, False)
+                # event
+                buttons[env.gpio_input_pins.index(
+                    pin)].when_pressed = lambda: gpio_zero_callback(
+                    client, pin, True)
 
                 buttons[env.gpio_input_pins.index(
-                    pin)].when_pressed = hello
-                buttons[env.gpio_input_pins.index(
-                    pin)].when_released = hello
+                    pin)].when_released = lambda: gpio_zero_callback(
+                    client, pin, False)
 
             except Exception as error:
                 print(f'Error setting up pin {pin}: {error}')
