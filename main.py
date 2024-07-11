@@ -17,7 +17,7 @@ def on_switch_action(client, switch_id, payload):
         client.publish(f'switch/{switch_id}/response', JSON.dumps(
             {'status': action}))
     else:
-        gpio.gpio_action(switch_id, )
+        gpio.gpio_action(switch_id, action)
     #
     #
     #
