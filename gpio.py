@@ -164,9 +164,18 @@ def gpio_room_toggle(client):
                     # Save to Local DB
                     db.setRoomStatus(input_state)
 
-                    print(f'Toggle pressed', True if input_state == 1 else False)
-                    client.publish(f'room/{env.room_id}/toggle',
-                                   JSON.dumps({'toggle': True if input_state == 1 else False}))
+                    print('[Online Mode On]' if input_state ==
+                          1 else '[Offline Mode On]')
+
+                    if client:
+                        client.publish(f'room/{env.room_id}/toggle',
+                                       JSON.dumps({'toggle': True if input_state == 1 else False}))
+
+                    if input_state == 0:  # Hard Code for Offline Mode
+                        for pin in env.gpio_pins:
+                            if pin is not None:
+                                gpio.output(int(pin), gpio.LOW)
+
         except Exception as error:
             print(f'Error setting up pin {env.toggle_pin}: {error}')
     else:
