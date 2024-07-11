@@ -136,8 +136,8 @@ def gpio_zero_listner(client):
                 buttons.append(Button(int(pin)))
 
                 # sync
-                gpio_zero_callback(
-                    client, pin, buttons[env.gpio_input_pins.index(pin)].is_pressed)
+                # gpio_zero_callback(
+                #     client, pin, buttons[env.gpio_input_pins.index(pin)].is_pressed)
 
                 # event
                 buttons[env.gpio_input_pins.index(
