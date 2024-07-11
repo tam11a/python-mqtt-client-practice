@@ -4,6 +4,7 @@ import json as JSON
 import gpio
 import dht as DHT
 import threading
+import db
 
 
 def on_switch_action(client, switch_id, payload):
@@ -11,7 +12,12 @@ def on_switch_action(client, switch_id, payload):
     #
     #
     # Do something with the switch action
-    gpio.gpio_action(switch_id, payload.get('action'))
+    action = payload.get('action')
+    if db.getSwitchStatus(switch_id) is action:
+        client.publish(f'switch/{switch_id}/response', JSON.dumps(
+            {'status': action}))
+    else:
+        gpio.gpio_action(switch_id, )
     #
     #
     #
