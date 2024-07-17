@@ -13,7 +13,8 @@ def on_switch_action(client, switch_id, payload):
     #
     # Do something with the switch action
     action = payload.get('action')
-    if db.getSwitchStatus(switch_id) is action:
+    # db.getSwitchStatus(switch_id) is action:
+    if gpio.buttons[env.switch_ids.index(switch_id)].is_pressed is action:
         client.publish(f'switch/{switch_id}/response', JSON.dumps(
             {'status': action}))
     else:
