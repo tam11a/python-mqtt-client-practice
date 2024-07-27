@@ -5,6 +5,7 @@ import gpio
 import dht as DHT
 import threading
 import ping
+import connectivity
 
 
 def on_switch_action(client, switch_id, payload):
@@ -61,9 +62,13 @@ if __name__ == "__main__":
     thread_ping = threading.Thread(
         target=ping.ping_server, kwargs={'client': client}
     )
+    thread_connectivity = threading.Thread(
+        target=connectivity.preview_connection, kwargs={'client': client}
+    )
 
     thread_dht.start()
     thread_switch_from_app.start()
     thread_gpio.start()
     threan_room_toggle.start()
     thread_ping.start()
+    thread_connectivity.start()
