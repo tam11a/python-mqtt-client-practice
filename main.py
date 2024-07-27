@@ -48,7 +48,11 @@ if __name__ == "__main__":
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
-    client.connect(env.mqtt_host, int(env.mqtt_port), 60)
+
+    try:
+        client.connect(env.mqtt_host, int(env.mqtt_port), 60)
+    except Exception as e:
+        print(f'Error connecting to {env.mqtt_host} > {e}')
 
     # Threads Initialization
 
