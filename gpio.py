@@ -23,10 +23,13 @@ for pin in env.gpio_pins:
         print('Setting up pin', pin, 'as output', flush=True)
         gpio.setup(int(pin), gpio.OUT)
 
-if env.manual_pin is not None:
+if env.manual_red_pin is not None and env.manual_green_pin is not None:
     print('Setting up manual light pin',
-          env.manual_pin, 'as output', flush=True)
-    gpio.setup(int(env.manual_pin), gpio.OUT)
+          env.manual_red_pin, 'as output', flush=True)
+    gpio.setup(int(env.manual_red_pin), gpio.OUT)
+    print('Setting up manual light pin',
+          env.manual_green_pin, 'as output', flush=True)
+    gpio.setup(int(env.manual_green_pin), gpio.OUT)
 
 
 def gpio_action(switch_id, action):
@@ -164,12 +167,15 @@ def gpio_room_toggle(client):
         try:
             gpio.setup(int(env.toggle_pin), gpio.IN)
 
-            if db.getRoomStatus():
-                print('[Online Mode On]')
-                gpio.output(int(env.manual_pin), gpio.LOW)
-            else:
-                print('[Offline Mode On]')
-                gpio.output(int(env.manual_pin), gpio.HIGH)
+            if env.manual_red_pin is not None and env.manual_green_pin is not None:
+                if db.getRoomStatus():
+                    print('[Online Mode On]')
+                    gpio.output(int(env.manual_red_pin), gpio.LOW)
+                    gpio.output(int(env.manual_green_pin), gpio.HIGH)
+                else:
+                    print('[Offline Mode On]')
+                    gpio.output(int(env.manual_red_pin), gpio.HIGH)
+                    gpio.output(int(env.manual_green_pin), gpio.LOW)
 
             while True:
                 input_state = gpio.input(int(env.toggle_pin))
@@ -184,12 +190,15 @@ def gpio_room_toggle(client):
                         client.publish(f'room/{env.room_id}/toggle',
                                        JSON.dumps({'toggle': True if input_state == 1 else False}))
 
-                    if input_state == 1:
-                        print('[Online Mode On]')
-                        gpio.output(int(env.manual_pin), gpio.LOW)
-                    else:
-                        print('[Offline Mode On]')
-                        gpio.output(int(env.manual_pin), gpio.HIGH)
+                    if env.manual_red_pin is not None and env.manual_green_pin is not None:
+                        if input_state == 1:
+                            print('[Online Mode On]')
+                            gpio.output(int(env.manual_red_pin), gpio.LOW)
+                            gpio.output(int(env.manual_green_pin), gpio.HIGH)
+                        else:
+                            print('[Offline Mode On]')
+                            gpio.output(int(env.manual_red_pin), gpio.HIGH)
+                            gpio.output(int(env.manual_green_pin), gpio.LOW)
 
                     if input_state == 0:  # Hard Code for Offline Mode
                         for pin in env.gpio_pins:
