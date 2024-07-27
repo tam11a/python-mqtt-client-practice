@@ -22,6 +22,7 @@ toggle_pin = os.environ.get('TOGGLE_PIN')
 manual_red_pin = os.environ.get('MANUAL_RED_PIN')
 manual_green_pin = os.environ.get('MANUAL_GREEN_PIN')
 
+
 switch_ids = [
     os.environ.get('SWITCH_ID_1'),
     os.environ.get('SWITCH_ID_2'),
