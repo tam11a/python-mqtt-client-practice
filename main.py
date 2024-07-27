@@ -4,7 +4,7 @@ import json as JSON
 import gpio
 import dht as DHT
 import threading
-import db
+import ping
 
 
 def on_switch_action(client, switch_id, payload):
@@ -58,8 +58,12 @@ if __name__ == "__main__":
         target=gpio.gpio_zero_listner, kwargs={'client': client})
     threan_room_toggle = threading.Thread(
         target=gpio.gpio_room_toggle, kwargs={'client': client})
+    thread_ping = threading.Thread(
+        target=ping.ping_server, kwargs={'client': client}
+    )
 
     thread_dht.start()
     thread_switch_from_app.start()
     thread_gpio.start()
     threan_room_toggle.start()
+    thread_ping.start()
