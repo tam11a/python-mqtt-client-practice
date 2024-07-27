@@ -22,4 +22,4 @@ def preview_connection(client):
                 else:
                     gpio.output(int(config.manual_red_pin), gpio.HIGH)
                     gpio.output(int(config.manual_green_pin), gpio.LOW)
-        time.sleep(1)
+        time.sleep(0.5)
