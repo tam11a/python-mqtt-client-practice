@@ -2,6 +2,7 @@ import config
 import json as JSON
 import time
 import RPi.GPIO as gpio
+import db
 
 
 def ping_server(client):
@@ -17,4 +18,13 @@ def ping_server(client):
         else:
             client.publish(f'ping/{config.room_id}',
                            JSON.dumps({'status': 'ping'}))
+            if config.manual_red_pin is not None and config.manual_green_pin is not None:
+                if db.getRoomStatus():
+                    print('[Online Mode On]')
+                    gpio.output(int(config.manual_red_pin), gpio.LOW)
+                    gpio.output(int(config.manual_green_pin), gpio.HIGH)
+                else:
+                    print('[Offline Mode On]')
+                    gpio.output(int(config.manual_red_pin), gpio.HIGH)
+                    gpio.output(int(config.manual_green_pin), gpio.LOW)
         time.sleep(5)
