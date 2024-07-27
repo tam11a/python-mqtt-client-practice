@@ -19,6 +19,8 @@ sensor_pin = os.environ.get('SENSOR_PIN')
 room_id = os.environ.get('ROOM_ID')
 toggle_pin = os.environ.get('TOGGLE_PIN')
 
+manual_pin = os.environ.get('MANUAL_PIN')
+
 switch_ids = [
     os.environ.get('SWITCH_ID_1'),
     os.environ.get('SWITCH_ID_2'),
